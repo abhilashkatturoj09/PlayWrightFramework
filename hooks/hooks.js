@@ -1,4 +1,4 @@
-const { Before, After } = require('@cucumber/cucumber');
+const { Before, After, Status } = require('@cucumber/cucumber');
 const { chromium } = require('playwright');
 
 Before(async function () {
@@ -11,7 +11,16 @@ Before(async function () {
     this.page = await this.context.newPage();
 });
 
-After(async function () {
+After(async function (scenario) {
+
+    if (scenario.result.status === Status.FAILED) {
+
+        const screenshot = await this.page.screenshot({
+            fullPage: true
+        });
+
+        await this.attach(screenshot, 'image/png');
+    }
 
     await this.page.close();
     await this.context.close();
