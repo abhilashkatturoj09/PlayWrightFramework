@@ -2,11 +2,12 @@
 const { Given, When, Then } = require('@cucumber/cucumber');
 const LoginPage = require('../../pages/LoginPage');
 const { page } = require('@playwright/test');
-
+const config =require('../../utils/config');
 Given('google url', async function () {
     // Write code here that turns the phrase above into concrete actions
     // return 'pending';
     console.log("in google url");
+    console.log(config.login);
     this.LoginPage = new LoginPage(this.page);
     await this.LoginPage.navigate();
     // await this.page.goto
